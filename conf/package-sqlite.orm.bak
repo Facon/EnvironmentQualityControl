@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE orm SYSTEM "file:/javax/jdo/orm.dtd">
+<orm>
+    <package name="es.deusto.jdo.samples">
+        <class name="User" identity-type="datastore">
+            <field name="login" persistence-modifier="persistent">
+                <column length="32" jdbc-type="VARCHAR"/>
+            </field>
+			<field name="password" persistence-modifier="persistent">
+                <column length="32" jdbc-type="VARCHAR"/>
+            </field>
+			<field name="fullName" persistence-modifier="persistent">
+                <column length="100" jdbc-type="VARCHAR"/>
+            </field>
+            <field name="accounts" persistence-modifier="persistent" mapped-by="user">
+                <collection element-type="es.deusto.jdo.samples.Account" dependent-element="true">
+                </collection>
+            </field>
+			<field name="addresses" persistence-modifier="persistent" table="USERS_ADDRESSES">
+                <collection element-type="es.deusto.jdo.samples.Address"/>
+				<join>
+					<column name="USER_ID"/>
+				</join>
+				<element>
+					<column name="ADDRESS_ID"/>
+				</element>
+            </field>
+        </class>
+
+        <class name="Account" identity-type="datastore">
+            <field name="balance">
+                <column jdbc-type="DOUBLE"/>
+            </field>
+			<field name="bankName" persistence-modifier="persistent">
+                <column length="128" jdbc-type="VARCHAR"/>
+            </field>
+            <field name="user" persistence-modifier="persistent">
+            </field>
+			<field name="address" persistence-modifier="persistent">
+                <column name="ADDRESS_ID"/>
+            </field>
+        </class>
+		
+		
+		<class name="Address" identity-type="datastore">
+            <field name="street" persistence-modifier="persistent">
+                <column length="128" jdbc-type="VARCHAR"/>
+            </field>
+			<field name="city" persistence-modifier="persistent">
+                <column length="128" jdbc-type="VARCHAR"/>
+            </field>
+			<field name="country" persistence-modifier="persistent">
+                <column length="128" jdbc-type="VARCHAR"/>
+            </field>
+			<field name="postcode" persistence-modifier="persistent">
+                <column length="32" jdbc-type="VARCHAR"/>
+            </field>
+            <field name="users" persistence-modifier="persistent">
+            	<collection element-type="es.deusto.jdo.samples.User"/>
+            </field>
+        </class>
+    </package>
+</orm>
+
+
